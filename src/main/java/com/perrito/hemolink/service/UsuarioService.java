@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.perrito.hemolink.model.entity.Usuario;
 import com.perrito.hemolink.model.repository.UsuarioRepository;
-import com.perritotoystore.model.entity.Brinquedo;
 
 @Service
 public class UsuarioService {
