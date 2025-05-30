@@ -38,8 +38,7 @@ public class UsuarioController {
             return "Credenciais inválidas.";
         }
     }
-    
-    @GetMapping("/{codigo}")
+        @GetMapping("/{codigo}")
 	public ResponseEntity<Usuario> getUserByCodigo(@PathVariable int codigo) {
 		Usuario usuario = usuarioService.getUsuarioByCodigo(codigo);
 		if (usuario != null) {
