@@ -4,12 +4,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.perrito.hemolink.model.entity.Requisicao;
 import com.perrito.hemolink.model.entity.Usuario;
 import com.perrito.hemolink.model.repository.RequisicaoRepository;
 import com.perrito.hemolink.model.repository.UsuarioRepository;
 
+@Service
 public class RequisicaoService {
 	@Autowired
     private RequisicaoRepository requisicaoRepo;
