@@ -1,5 +1,7 @@
 package com.perrito.hemolink.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,4 +61,9 @@ public class UsuarioController {
         session.invalidate();
         return "Logout realizado com sucesso.";
     }
+    
+    @GetMapping
+	public List<Usuario> getAllUsuarios() {
+		return  usuarioService.getAllUsuarios();
+	}
 }

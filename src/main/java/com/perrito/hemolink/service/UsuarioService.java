@@ -1,5 +1,6 @@
 package com.perrito.hemolink.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,9 @@ public class UsuarioService {
 	public Usuario getUsuarioByCodigo(int codigo) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(codigo);
         return optionalUsuario.orElse(null);
+    }
+	
+	public List<Usuario> getAllUsuarios() {
+        return usuarioRepository.findAll();
     }
 }
