@@ -35,8 +35,8 @@ public class UsuarioService {
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(codigo);
         return optionalUsuario.orElse(null);
     }
-    public boolean deleteUsuario(String email) {
-    	Usuario usuario = usuarioRepository.findByEmail(email);
+    public boolean deleteUsuario(int codigo) {
+    	Usuario usuario = usuarioRepository.findById(codigo).orElse(null);
 	if (usuario != null) {
 		usuarioRepository.delete(usuario);
 		return true;

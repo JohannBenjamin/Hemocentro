@@ -65,9 +65,9 @@ public class UsuarioController {
         return "Logout realizado com sucesso.";
     }
 
-    @DeleteMapping("/{email}")
-    public ResponseEntity<String> deleteUsuario(@PathVariable String email) {
-        boolean deleted = usuarioService.deleteUsuario(email);
+    @DeleteMapping("/{codigo}")
+    public ResponseEntity<String> deleteUsuario(@PathVariable int codigo) {
+        boolean deleted = usuarioService.deleteUsuario(codigo);
         if (deleted) {
             return new ResponseEntity<>("Usuário deletado com sucesso.", HttpStatus.OK);
         } else {
