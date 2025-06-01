@@ -62,7 +62,17 @@ public class UsuarioService {
 	}
 	return false;
 }
+ 
 
+	public String[] getRegioes() {
+		return new String[] {
+			"Posto Clínicas - Av. Dr. Enéas de Carvalho Aguiar, 155 - Cerqueira César, São Paulo - SP, 05403-000",
+			"Posto Dante Pazzanese - Av. Dr. Dante Pazzanese, 500 - Vila Mariana, São Paulo - SP, 04012-030",
+			"Posto Mandaqui - Rua Voluntários da Pátria, 4.227 - Mandaqui, São Paulo - SP, 02310-000",
+			"Posto Regional De Osasco - Rua Ari Barroso, 355, Presidente Altino, Osasco - SP, 06093-020",
+			"Posto Barueri - Rua Guilhermina Carril Loureiro, 144 - Centro, Barueri - SP, 06401-020"
+	};
+}
 
 	
 	public List<Usuario> getAllUsuarios() {

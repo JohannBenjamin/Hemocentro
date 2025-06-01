@@ -76,14 +76,20 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping("/{codigo}")
-    public ResponseEntity<String> atualizarUsuario(@PathVariable int codigo, @RequestBody Usuario usuario) {
-        boolean atualizado = usuarioService.atualizarUsuario(codigo, usuario);
-        if (atualizado) {
-            return new ResponseEntity<>("Usuário atualizado com sucesso.", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Usuário não encontrado.", HttpStatus.NOT_FOUND);
-        }
+@PutMapping("/{codigo}")
+public ResponseEntity<String> atualizarUsuario(@PathVariable int codigo, @RequestBody Usuario usuario) {
+    boolean atualizado = usuarioService.atualizarUsuario(codigo, usuario);
+    if (atualizado) {
+        return new ResponseEntity<>("Usuário atualizado com sucesso.", HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>("Usuário não encontrado.", HttpStatus.NOT_FOUND);
+    }
+}
+
+    @GetMapping("/regioes")
+    public ResponseEntity<String[]> listarRegioes() {
+        String[] regioes = usuarioService.getRegioes();
+        return new ResponseEntity<>(regioes, HttpStatus.OK);
     }
 
     
