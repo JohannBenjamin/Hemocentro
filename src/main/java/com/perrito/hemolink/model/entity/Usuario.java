@@ -19,7 +19,7 @@ public class Usuario {
 	private Date dataNascimento;
 	private String tipo;
 	private String celular;
-	private String cep;
+	private String regiao;
 	private String senha;
 	
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -30,7 +30,7 @@ public class Usuario {
 	}
 	
 	public Usuario(int id, String nome, String email, String cpf, Date dataNascimento, String tipo, String celular,
-			String cep, String senha) {
+			String regiao, String senha) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
@@ -38,7 +38,7 @@ public class Usuario {
 		this.dataNascimento = dataNascimento;
 		this.tipo = tipo;
 		this.celular = celular;
-		this.cep = cep;
+		this.regiao = regiao;
 		this.senha = senha;
 	}
 
@@ -98,12 +98,12 @@ public class Usuario {
 		this.celular = celular;
 	}
 
-	public String getCep() {
-		return cep;
+	public String getRegiao() {
+		return regiao;
 	}
 
-	public void setCep(String cep) {
-		this.cep = cep;
+	public void setRegiao(String regiao) {
+		this.regiao = regiao;
 	}
 
 	public String getSenha() {
