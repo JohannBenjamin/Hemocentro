@@ -17,6 +17,10 @@ public class UsuarioService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	public Usuario findByEmail(String email) {
+		return usuarioRepository.findByEmail(email);
+	}
 	
 	public Usuario createUsuario(Usuario usuario) {
 		//Bcrypt

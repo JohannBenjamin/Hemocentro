@@ -55,9 +55,16 @@ public class UsuarioController {
 	}
     
     @GetMapping("/eu") //pega a sessao do usuario
-    public String getLoggedUser(HttpSession session) {
+    public ResponseEntity<Usuario> getLoggedUser(HttpSession session) {
         String email = (String) session.getAttribute("email");
-        return email != null ? "Usuário logado: " + email : "Nenhum usuário logado.";
+        if (email != null){
+            Usuario usuario = usuarioService.findByEmail(email);
+            if(usuario != null){
+                usuario.setSenha(null);
+                return ResponseEntity.ok(usuario);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
     
     @PostMapping("/logout")
