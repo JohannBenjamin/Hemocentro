@@ -44,6 +44,26 @@ public class UsuarioService {
     	return false;
 }
 
+    public boolean atualizarUsuario(int codigo, Usuario usuarioAtualizado) {
+	Optional<Usuario> optionalUsuario = usuarioRepository.findById(codigo);
+	if (optionalUsuario.isPresent()) {
+		Usuario usuarioExistente = optionalUsuario.get();
+
+		usuarioExistente.setNome(usuarioAtualizado.getNome());
+		usuarioExistente.setEmail(usuarioAtualizado.getEmail());
+
+		if (!usuarioAtualizado.getSenha().equals(usuarioExistente.getSenha())) {
+			String senhaCriptografada = passwordEncoder.encode(usuarioAtualizado.getSenha());
+			usuarioExistente.setSenha(senhaCriptografada);
+		}
+
+		usuarioRepository.save(usuarioExistente);
+		return true;
+	}
+	return false;
+}
+
+
 	
 	public List<Usuario> getAllUsuarios() {
         return usuarioRepository.findAll();
