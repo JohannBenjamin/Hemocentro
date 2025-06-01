@@ -37,9 +37,14 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
+        configuration.setAllowedOrigins(List.of(
+	        "https://hemolink-app.vercel.app",
+	        "http://localhost:5173",
+	        "http://localhost:3000"
+    	));
+    	configuration.setAllowedMethods(List.of("*"));
+    	configuration.setAllowedHeaders(List.of("*"));
+    	configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
