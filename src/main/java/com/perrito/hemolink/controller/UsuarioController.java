@@ -34,17 +34,7 @@ public class UsuarioController {
 
 
 
-    @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String senha, HttpSession session) {
-        boolean success = usuarioService.login(email, senha);
-        if (success) {
-            session.setAttribute("email", email); // salva na sessão
-            return "Login bem-sucedido!";
-        } else {
-            return "Credenciais inválidas.";
-        }
-    }
-        @GetMapping("/{codigo}")
+    @GetMapping("/{codigo}")
 	public ResponseEntity<Usuario> getUserByCodigo(@PathVariable int codigo) {
 		Usuario usuario = usuarioService.getUsuarioByCodigo(codigo);
 		if (usuario != null) {
