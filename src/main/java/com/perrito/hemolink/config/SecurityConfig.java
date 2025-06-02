@@ -48,6 +48,7 @@ public class SecurityConfig {
             .authorizeHttpRequests()
             .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
             .requestMatchers("/api/v1/auth/**",
+            "/api/auth/**",
              "/api/usuario/cadastrar",
              "/api/usuario/regioes",
              "/api/usuario/login").permitAll() // liberar login
