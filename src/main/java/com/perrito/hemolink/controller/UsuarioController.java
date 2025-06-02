@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,20 +45,19 @@ public class UsuarioController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-    
-    @GetMapping("/eu") //pega a sessao do usuario
-    public ResponseEntity<Usuario> getLoggedUser(HttpSession session) {
-        String email = (String) session.getAttribute("email");
-        if (email != null){
-            Usuario usuario = usuarioService.findByEmail(email);
-            if(usuario != null){
+
+    @GetMapping("/eu")
+    public ResponseEntity<Usuario> getLoggedUser(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails != null) {
+            Usuario usuario = usuarioService.findByEmail(userDetails.getUsername());
+            if (usuario != null) {
                 usuario.setSenha(null);
                 return ResponseEntity.ok(usuario);
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
-    
+
     @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
