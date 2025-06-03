@@ -64,7 +64,7 @@ public class UsuarioController {
         return "Logout realizado com sucesso.";
     }
 
-    @DeleteMapping("/{eu)")
+    @DeleteMapping("/{codigo}")
    public ResponseEntity<String> deletarUsuario(@AuthenticationPrincipal UserDetails userDetails) {
     if (userDetails == null) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
@@ -83,7 +83,7 @@ public class UsuarioController {
     }
 }
 
-@PutMapping("/{eu}")
+@PutMapping("/{codigo}")
 public ResponseEntity<String> atualizarUsuario(
     @PathVariable int codigo, 
     @RequestBody Usuario usuario,
