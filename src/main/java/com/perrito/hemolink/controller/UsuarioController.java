@@ -64,24 +64,42 @@ public class UsuarioController {
         return "Logout realizado com sucesso.";
     }
 
-    @DeleteMapping("/{codigo}")
-    public ResponseEntity<String> deleteUsuario(@PathVariable int codigo) {
-        boolean deleted = usuarioService.deleteUsuario(codigo);
-        if (deleted) {
-            return new ResponseEntity<>("Usuário deletado com sucesso.", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Usuário não encontrado.", HttpStatus.NOT_FOUND);
-        }
+    @DeleteMapping("/{eu)")
+   public ResponseEntity<String> deletarUsuario(@AuthenticationPrincipal UserDetails userDetails) {
+    if (userDetails == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
     }
 
-@PutMapping("/{codigo}")
-public ResponseEntity<String> atualizarUsuario(@PathVariable int codigo, @RequestBody Usuario usuario) {
+    Usuario usuario = usuarioService.findByEmail(userDetails.getUsername());
+    if (usuario == null) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.");
+    }
+
+    boolean deletado = usuarioService.deleteUsuario(usuario.getId());
+    if (deletado) {
+        return ResponseEntity.ok("Usuário deletado com sucesso.");
+    } else {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao deletar o usuário.");
+    }
+}
+
+@PutMapping("/{eu}")
+public ResponseEntity<String> atualizarUsuario(
+    @PathVariable int codigo, 
+    @RequestBody Usuario usuario,
+    @AuthenticationPrincipal UserDetails userDetails) {
+
+    Usuario usuarioLogado = usuarioService.findByEmail(userDetails.getUsername());
+    if (usuarioLogado == null || usuarioLogado.getId() != codigo) {
+        return new ResponseEntity<>("Acesso negado", HttpStatus.FORBIDDEN);
+    }
+
     boolean atualizado = usuarioService.atualizarUsuario(codigo, usuario);
     if (atualizado) {
         return new ResponseEntity<>("Usuário atualizado com sucesso.", HttpStatus.OK);
     } else {
         return new ResponseEntity<>("Usuário não encontrado.", HttpStatus.NOT_FOUND);
-    }
+    }
 }
 
     @GetMapping("/regioes")
