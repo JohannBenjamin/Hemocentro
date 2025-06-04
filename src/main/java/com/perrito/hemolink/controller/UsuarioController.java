@@ -87,10 +87,6 @@ public ResponseEntity<String> atualizarUsuario(
     @PathVariable int codigo, 
     @RequestBody Usuario usuario,
     @AuthenticationPrincipal UserDetails userDetails) {
-    Usuario usuarioLogado = usuarioService.findByEmail(userDetails.getUsername());
-    if (usuarioLogado == null || usuarioLogado.getId() != codigo) {
-        return new ResponseEntity<>("Acesso negado", HttpStatus.FORBIDDEN);
-    }
 
     boolean atualizado = usuarioService.atualizarUsuario(codigo, usuario);
     if (atualizado) {
