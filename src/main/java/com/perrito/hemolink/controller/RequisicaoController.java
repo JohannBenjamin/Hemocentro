@@ -1,5 +1,6 @@
 package com.perrito.hemolink.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,31 +32,40 @@ public class RequisicaoController {
 	private UsuarioService usuarioService;
 
     @PostMapping("/usuarios/eu")
-    public ResponseEntity<?> criarRequisicao(
-            @AuthenticationPrincipal UserDetails userDetails,
-            @org.springframework.web.bind.annotation.RequestBody RequisicaoDTO dto) {
-        try {
-            if (userDetails == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
-            }
-
-            Usuario usuario = usuarioService.findByEmail(userDetails.getUsername());
-            if (usuario == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não encontrado.");
-            }
-
-            Requisicao requisicao = new Requisicao();
-            requisicao.setTipo(dto.getTipo());
-            requisicao.setLocal(dto.getLocal());
-            requisicao.setDescricao(dto.getDescricao());
-
-            Requisicao requisicaoSalva = requisicaoService.criarRequisicao(usuario, requisicao);
-            return ResponseEntity.status(HttpStatus.CREATED).body(requisicaoSalva);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+public ResponseEntity<?> criarRequisicao(
+        @AuthenticationPrincipal UserDetails userDetails,
+        @RequestBody RequisicaoDTO dto) {
+    try {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
         }
+
+        Usuario usuario = usuarioService.findByEmail(userDetails.getUsername());
+        if (usuario == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não encontrado.");
+        }
+
+        Requisicao requisicao = new Requisicao();
+        requisicao.setTipo(dto.getTipo());
+        requisicao.setLocal(dto.getLocal());
+        requisicao.setDescricao(dto.getDescricao());
+        requisicao.setDataCriacao(LocalDateTime.now());
+        requisicao.setUsuario(usuario);
+
+        Requisicao requisicaoSalva = requisicaoService.criarRequisicao(usuario, requisicao);
+
+        RequisicaoDTO responseDTO = new RequisicaoDTO();
+        responseDTO.setTipo(requisicaoSalva.getTipo());
+        responseDTO.setLocal(requisicaoSalva.getLocal());
+        responseDTO.setDescricao(requisicaoSalva.getDescricao());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
 }
+
     @DeleteMapping("/usuarios/eu")
     public ResponseEntity<?> deletarRequisicaoDoUsuario(
         @AuthenticationPrincipal UserDetails userDetails) {
