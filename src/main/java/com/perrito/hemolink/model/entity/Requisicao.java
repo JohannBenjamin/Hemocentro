@@ -34,6 +34,10 @@ public class Requisicao {
 		this.usuario = usuario;
 	}
 
+	public Requisicao() {
+	}
+
+
 	public Integer getId() {
 		return id;
 	}
