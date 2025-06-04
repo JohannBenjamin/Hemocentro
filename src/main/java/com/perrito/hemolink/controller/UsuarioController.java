@@ -82,17 +82,31 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao deletar o usuário.");
     }
 }
-@PutMapping("/{codigo}")
-public ResponseEntity<String> atualizarUsuario(
-    @PathVariable int codigo, 
-    @RequestBody Usuario usuario,
-    @AuthenticationPrincipal UserDetails userDetails) {
+    @PutMapping("/{codigo}")
+    public ResponseEntity<String> atualizarUsuario(
+            @PathVariable int codigo,
+            @RequestBody Usuario usuario,
+            @AuthenticationPrincipal UserDetails userDetails) {
 
-    boolean atualizado = usuarioService.atualizarUsuario(codigo, usuario);
-    if (atualizado) {
-        return new ResponseEntity<>("Usuário atualizado com sucesso.", HttpStatus.OK);
-    } else {
-        return new ResponseEntity<>("Usuário não encontrado.", HttpStatus.NOT_FOUND);}
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
+        }
+
+        Usuario usuarioLogado = usuarioService.findByEmail(userDetails.getUsername());
+        if (usuarioLogado == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não encontrado.");
+        }
+
+        if (usuarioLogado.getId() != codigo) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado.");
+        }
+
+        boolean atualizado = usuarioService.atualizarUsuario(codigo, usuario);
+        if (atualizado) {
+            return ResponseEntity.ok("Usuário atualizado com sucesso.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.");
+        }
     }
 
     @GetMapping("/regioes")
