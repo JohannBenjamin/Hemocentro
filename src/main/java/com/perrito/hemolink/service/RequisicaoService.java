@@ -32,6 +32,17 @@ public class RequisicaoService {
 
     return requisicao;
 }
+    public void deletarRequisicaoDoUsuario(Usuario usuario) throws Exception {
+    Requisicao requisicao = usuario.getRequisicao();
+    if (requisicao == null) {
+        throw new Exception("Usuário não possui requisição para deletar.");
+    }
+
+    usuario.setRequisicao(null); 
+    requisicaoRepo.delete(requisicao);
+    usuarioRepository.save(usuario); 
+}
+
 
 
 
