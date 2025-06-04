@@ -51,7 +51,6 @@ public class SecurityConfig {
             "/api/auth/**",
              "/api/usuario/cadastrar",
              "/api/usuario/regioes",
-	     "/api/usuario/codigo",
              "/api/auth/login").permitAll() // liberar login
             .anyRequest().authenticated();
 
