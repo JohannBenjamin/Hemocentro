@@ -60,8 +60,10 @@ public class UsuarioService {
         usuarioExistente.setCelular(usuarioAtualizado.getCelular());
         usuarioExistente.setRegiao(usuarioAtualizado.getRegiao());
 
-        if (!usuarioAtualizado.getSenha().equals(usuarioExistente.getSenha())) {
-            String senhaCriptografada = passwordEncoder.encode(usuarioAtualizado.getSenha());
+        String novaSenha = usuarioAtualizado.getSenha();
+
+        if (novaSenha != null && !novaSenha.isBlank() && !passwordEncoder.matches(novaSenha, usuarioExistente.getSenha())) {
+            String senhaCriptografada = passwordEncoder.encode(novaSenha);
             usuarioExistente.setSenha(senhaCriptografada);
         }
 
@@ -74,6 +76,7 @@ public class UsuarioService {
     }
     return false;
 }
+
 
  
 
