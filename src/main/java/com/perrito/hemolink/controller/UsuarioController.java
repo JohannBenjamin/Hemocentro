@@ -64,7 +64,7 @@ public class UsuarioController {
         return "Logout realizado com sucesso.";
     }
 
-    @DeleteMapping("/{codigo}")
+    @DeleteMapping("/eu")
    public ResponseEntity<String> deletarUsuario(@AuthenticationPrincipal UserDetails userDetails) {
     if (userDetails == null) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
@@ -82,13 +82,11 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao deletar o usuário.");
     }
 }
-
 @PutMapping("/{codigo}")
 public ResponseEntity<String> atualizarUsuario(
     @PathVariable int codigo, 
     @RequestBody Usuario usuario,
     @AuthenticationPrincipal UserDetails userDetails) {
-
     Usuario usuarioLogado = usuarioService.findByEmail(userDetails.getUsername());
     if (usuarioLogado == null || usuarioLogado.getId() != codigo) {
         return new ResponseEntity<>("Acesso negado", HttpStatus.FORBIDDEN);
@@ -98,9 +96,8 @@ public ResponseEntity<String> atualizarUsuario(
     if (atualizado) {
         return new ResponseEntity<>("Usuário atualizado com sucesso.", HttpStatus.OK);
     } else {
-        return new ResponseEntity<>("Usuário não encontrado.", HttpStatus.NOT_FOUND);
-    }
-}
+        return new ResponseEntity<>("Usuário não encontrado.", HttpStatus.NOT_FOUND);}
+    }
 
     @GetMapping("/regioes")
     public ResponseEntity<String[]> listarRegioes() {
@@ -108,9 +105,8 @@ public ResponseEntity<String> atualizarUsuario(
         return new ResponseEntity<>(regioes, HttpStatus.OK);
     }
 
-    
     @GetMapping
-	public List<Usuario> getAllUsuarios() {
-		return  usuarioService.getAllUsuarios();
-	}
+    public List<Usuario> getAllUsuarios() {
+        return  usuarioService.getAllUsuarios();
+    }
 }
