@@ -13,7 +13,7 @@ import jakarta.persistence.OneToOne;
 public class Requisicao {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String tipo;
     private String local;
@@ -24,7 +24,7 @@ public class Requisicao {
     @JoinColumn(name = "usuario_id", unique = true)
     private Usuario usuario;
 
-	public Requisicao(int id, String tipo, String local, String descricao, LocalDateTime dataCriacao,
+	public Requisicao(Integer id, String tipo, String local, String descricao, LocalDateTime dataCriacao,
 			Usuario usuario) {
 		this.id = id;
 		this.tipo = tipo;
@@ -34,11 +34,11 @@ public class Requisicao {
 		this.usuario = usuario;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
