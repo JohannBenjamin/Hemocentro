@@ -1,12 +1,14 @@
 package com.perrito.hemolink.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -23,6 +25,9 @@ public class Requisicao {
     @OneToOne
     @JoinColumn(name = "usuario_id", unique = true)
     private Usuario usuario;
+    
+    @OneToMany(mappedBy = "requisicao")
+    private List<Agendamento> agendamentos;
 
 	public Requisicao(Integer id, String tipo, String local, String descricao, LocalDateTime dataCriacao,
 			Usuario usuario) {
@@ -84,6 +89,14 @@ public class Requisicao {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public List<Agendamento> getAgendamentos() {
+		return agendamentos;
+	}
+
+	public void setAgendamentos(List<Agendamento> agendamentos) {
+		this.agendamentos = agendamentos;
 	}
     
     

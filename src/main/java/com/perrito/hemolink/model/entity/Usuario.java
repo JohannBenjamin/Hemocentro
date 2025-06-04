@@ -1,12 +1,14 @@
 package com.perrito.hemolink.model.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -24,6 +26,11 @@ public class Usuario {
 	
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Requisicao requisicao;
+	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Agendamento> agendamento;
+	
+	
 	
 	public Usuario() {
 		
@@ -120,6 +127,14 @@ public class Usuario {
 
 	public void setRequisicao(Requisicao requisicao) {
 		this.requisicao = requisicao;
+	}
+
+	public List<Agendamento> getAgendamento() {
+		return agendamento;
+	}
+
+	public void setAgendamento(List<Agendamento> agendamento) {
+		this.agendamento = agendamento;
 	}
 	
 }
