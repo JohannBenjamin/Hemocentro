@@ -23,7 +23,6 @@ public class UsuarioService {
 	}
 	
 	public Usuario createUsuario(Usuario usuario) {
-		//Bcrypt
 		String senha = usuario.getSenha();
         usuario.setSenha(passwordEncoder.encode(senha));
         
