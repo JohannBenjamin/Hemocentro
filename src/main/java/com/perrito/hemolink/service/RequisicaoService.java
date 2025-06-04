@@ -28,10 +28,11 @@ public class RequisicaoService {
     requisicao.setDataCriacao(LocalDateTime.now());
     usuario.setRequisicao(requisicao);
 
-    usuarioRepository.save(usuario); // CascadeType.ALL salva a requisição também
+    usuarioRepository.save(usuario); 
 
     return requisicao;
 }
+
 
 
     public List<Requisicao> listarRequisicoes() {

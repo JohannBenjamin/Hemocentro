@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.perrito.hemolink.model.dto.RequisicaoDTO;
 import com.perrito.hemolink.model.entity.Requisicao;
 import com.perrito.hemolink.model.entity.Usuario;
 import com.perrito.hemolink.service.RequisicaoService;
@@ -31,7 +32,7 @@ public class RequisicaoController {
     @PostMapping("/usuarios/eu")
     public ResponseEntity<?> criarRequisicao(
             @AuthenticationPrincipal UserDetails userDetails,
-            @RequestBody Requisicao requisicao) {
+            @org.springframework.web.bind.annotation.RequestBody RequisicaoDTO dto) {
         try {
             if (userDetails == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
@@ -42,13 +43,19 @@ public class RequisicaoController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não encontrado.");
             }
 
+            Requisicao requisicao = new Requisicao();
+            requisicao.setTipo(dto.getTipo());
+            requisicao.setLocal(dto.getLocal());
+            requisicao.setDescricao(dto.getDescricao());
+
             Requisicao requisicaoSalva = requisicaoService.criarRequisicao(usuario, requisicao);
             return ResponseEntity.status(HttpStatus.CREATED).body(requisicaoSalva);
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-    }
+}
+
     @GetMapping("/feed")
     public List<Requisicao> listarRequisicoes() {
         return requisicaoService.listarRequisicoes();
