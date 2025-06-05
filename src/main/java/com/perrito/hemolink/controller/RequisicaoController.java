@@ -95,6 +95,8 @@ public ResponseEntity<?> criarRequisicao(
 
         List<RequisicaoDTO> dtos = requisicoes.stream().map(requisicao -> {
             RequisicaoDTO dto = new RequisicaoDTO();
+            dto.setId(requisicao.getId());
+            dto.setNome(requisicao.getUsuario() != null ? requisicao.getUsuario().getNome() : "Usuário Desconhecido");
             dto.setTipo(requisicao.getTipo());
             dto.setDescricao(requisicao.getDescricao());
             return dto;
@@ -123,5 +125,22 @@ public ResponseEntity<?> criarRequisicao(
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 }
+    @DeleteMapping("/publico/{id}")
+public ResponseEntity<?> deletarRequisicaoPorIdPublico(@PathVariable Integer id) {
+    try {
+        Requisicao requisicao = requisicaoService.buscarPorId(id);
+        if (requisicao == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Requisição não encontrada.");
+        }
+
+        requisicaoService.deletarPorId(id);
+        return ResponseEntity.ok("Requisição deletada com sucesso.");
+
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+}
+
+
 
 }

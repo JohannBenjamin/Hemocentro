@@ -59,4 +59,13 @@ public class RequisicaoService {
     public void deletarRequisicoesInvalidadas() {
         requisicaoRepository.deleteAll();
     }
+    public Requisicao buscarPorId(Integer id) {
+    return requisicaoRepository.findById(id).orElse(null);
+    }
+
+    public void deletarPorId(Integer id) {
+        requisicaoRepository.deleteById(id);
+    }
+
+
 }
