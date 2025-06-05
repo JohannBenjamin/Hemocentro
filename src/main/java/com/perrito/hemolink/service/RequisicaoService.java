@@ -26,6 +26,7 @@ public class RequisicaoService {
 
     requisicao.setUsuario(usuario);
     requisicao.setDataCriacao(LocalDateTime.now());
+    requisicaoRepo.save(requisicao);
     usuario.setRequisicao(requisicao);
 
     usuarioRepository.save(usuario); 
@@ -63,9 +64,19 @@ public class RequisicaoService {
     return requisicaoRepository.findById(id).orElse(null);
     }
 
-    public void deletarPorId(Integer id) {
-        requisicaoRepository.deleteById(id);
+   public void deletarPorId(Integer id) throws Exception {
+    Requisicao requisicao = requisicaoRepository.findById(id).orElse(null);
+    if (requisicao == null) {
+        throw new Exception("Requisição não encontrada.");
     }
 
+    Usuario usuario = requisicao.getUsuario();
+    if (usuario != null) {
+        usuario.setRequisicao(null);
+        usuarioRepository.save(usuario); // remove a referência do usuário
+    }
+
+    requisicaoRepository.deleteById(id);
+}
 
 }

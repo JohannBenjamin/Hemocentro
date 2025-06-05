@@ -132,8 +132,10 @@ public ResponseEntity<?> deletarRequisicaoPorIdPublico(@PathVariable Integer id)
         if (requisicao == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Requisição não encontrada.");
         }
-
+        
+        System.out.println("Tentando deletar a requisição: " + requisicao);
         requisicaoService.deletarPorId(id);
+        System.err.println();
         return ResponseEntity.ok("Requisição deletada com sucesso.");
 
     } catch (Exception e) {
