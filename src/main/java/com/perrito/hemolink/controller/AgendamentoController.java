@@ -5,39 +5,58 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 import com.perrito.hemolink.model.entity.Agendamento;
+import com.perrito.hemolink.model.entity.Usuario;
 import com.perrito.hemolink.service.AgendamentoService;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import com.perrito.hemolink.service.UsuarioService;
 
 @RestController
 @RequestMapping("/agendamentos")
 public class AgendamentoController {
 
-	@Autowired
+    @Autowired
     private AgendamentoService agendamentoService;
 
-    @PostMapping("/cadastrar")
-    public ResponseEntity<Agendamento> criarAgendamento(@RequestBody Agendamento agendamento) {
-        Agendamento agendamentoResponse = agendamentoService.criarAgendamento(agendamento);
-        return new ResponseEntity<>(agendamentoResponse, HttpStatus.CREATED);
-    }
+    @Autowired
+    private UsuarioService usuarioService;
 
-    @GetMapping("/requisicao/{requisicaoId}")
-    public ResponseEntity<List<Agendamento>> listarAgendamentosPorRequisicao(@PathVariable int requisicaoId) {
-        List<Agendamento> agendamentos = agendamentoService.listarAgendamentosPorRequisicao(requisicaoId);
-        return new ResponseEntity<>(agendamentos, HttpStatus.OK);
+    @PostMapping("/cadastrar")
+    public ResponseEntity<?> criarAgendamento(
+        @AuthenticationPrincipal UserDetails userDetails,
+        @RequestBody Agendamento agendamento) {
+
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
+        }
+
+        Usuario usuario = usuarioService.findByEmail(userDetails.getUsername());
+        if (usuario == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não encontrado.");
+        }
+
+        agendamento.setUsuario(usuario); 
+
+        Agendamento agendamentoSalvo = agendamentoService.criarAgendamento(agendamento);
+        return new ResponseEntity<>(agendamentoSalvo, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Agendamento>> listarTodosAgendamentos() {
-        List<Agendamento> agendamentos = agendamentoService.listarAgendamentos();
-        return new ResponseEntity<>(agendamentos, HttpStatus.OK);
+    public ResponseEntity<?> listarMeusAgendamentos(@AuthenticationPrincipal UserDetails userDetails) {
+    if (userDetails == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
     }
+
+    Usuario usuario = usuarioService.findByEmail(userDetails.getUsername());
+    if (usuario == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não encontrado.");
+    }
+
+    List<Agendamento> agendamentos = agendamentoService.listarAgendamentosPorUsuario(usuario);
+    return ResponseEntity.ok(agendamentos);
+}
+
 }

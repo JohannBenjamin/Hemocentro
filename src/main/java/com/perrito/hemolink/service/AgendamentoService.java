@@ -55,9 +55,9 @@ public class AgendamentoService {
         List<Agendamento> agendamentos = agendamentoRepository.findByRequisicaoId(codigo);
 
         return agendamentos;
-    }    
-
-    public List<Agendamento> listarAgendamentos() {
-        return agendamentoRepository.findAll();
     }
+     public List<Agendamento> listarAgendamentosPorUsuario(Usuario usuario) {
+        return agendamentoRepository.findByUsuario(usuario);
+    }
+
 }
