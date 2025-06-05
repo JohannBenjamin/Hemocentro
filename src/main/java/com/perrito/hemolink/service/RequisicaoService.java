@@ -44,6 +44,12 @@ public class RequisicaoService {
 }
 
 
+    @Autowired
+    private RequisicaoRepository requisicaoRepository;
+
+    public void deletarTodasAsRequisicoes() {
+    requisicaoRepository.deleteAll();
+    }
 
 
     public List<Requisicao> listarRequisicoes() {
