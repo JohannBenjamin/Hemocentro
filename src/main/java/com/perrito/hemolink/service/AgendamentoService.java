@@ -2,6 +2,7 @@ package com.perrito.hemolink.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,19 @@ public class AgendamentoService {
      public List<Agendamento> listarAgendamentosPorUsuario(Usuario usuario) {
         return agendamentoRepository.findByUsuario(usuario);
     }
+
+    public Agendamento buscarPorId(int id) {
+        Optional<Agendamento> agendamento = agendamentoRepository.findById(id);
+        return agendamento.orElse(null);
+    }
+
+    public void deletarAgendamento(int id) {
+        agendamentoRepository.deleteById(id);
+    }
+
+    public boolean existeAgendamentoPorUsuario(Usuario usuario) {
+    return agendamentoRepository.existsByUsuario(usuario);
+}
+
 
 }

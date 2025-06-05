@@ -11,6 +11,8 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Intege
 
 	List<Agendamento> findByUsuario(Usuario usuario);
 	List<Agendamento> findByRequisicaoId(int requisicaoId);
+	boolean existsByUsuario(Usuario usuario);
+
 
 
 }
