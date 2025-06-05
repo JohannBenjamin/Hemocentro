@@ -51,6 +51,6 @@ public class RequisicaoService {
     }
     
     public void deletarRequisicoesInvalidadas() {
-        requisicaoRepo.deleteByTipoIsNullOrTipo("");
+        requisicaoRepo.deleteAll();
     }
 }
