@@ -2,6 +2,8 @@ package com.perrito.hemolink.model.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,10 +18,11 @@ public class Agendamento {
 		private Date data;
 		
 		@ManyToOne
-	    private Requisicao requisicao;
+		@JsonBackReference
+	    	private Requisicao requisicao;
 		
 		@ManyToOne
-	    private Usuario usuario;
+	    	private Usuario usuario;
 		
 		public Agendamento() {
 			
