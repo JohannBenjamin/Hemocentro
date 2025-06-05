@@ -22,7 +22,8 @@ import com.perrito.hemolink.model.entity.Usuario;
 import com.perrito.hemolink.service.RequisicaoService;
 import com.perrito.hemolink.service.UsuarioService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/requisicoes")
