@@ -16,7 +16,7 @@ import com.perrito.hemolink.service.AgendamentoService;
 import com.perrito.hemolink.service.UsuarioService;
 
 @RestController
-@RequestMapping("/agendamentos")
+@RequestMapping("/api/agendamentos")
 public class AgendamentoController {
 
     @Autowired
