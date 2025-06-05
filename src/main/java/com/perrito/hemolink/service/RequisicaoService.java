@@ -53,10 +53,10 @@ public class RequisicaoService {
 
 
     public List<Requisicao> listarRequisicoes() {
-        return requisicaoRepo.findAll();
+        return requisicaoRepository.findAll();
     }
     
     public void deletarRequisicoesInvalidadas() {
-        requisicaoRepo.deleteAll();
+        requisicaoRepository.deleteAll();
     }
 }
