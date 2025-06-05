@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import java.util.Date;
 
 import com.perrito.hemolink.model.entity.Agendamento;
 import com.perrito.hemolink.model.entity.Usuario;
@@ -45,6 +46,11 @@ public ResponseEntity<?> criarAgendamento(
                              .body("Usuário já possui um agendamento cadastrado.");
     }
 
+    // Definindo a data atual
+    agendamento.setData(new Date());
+
+    // Definindo um valor padrão para verificação
+    agendamento.setVerificacao("Pendente");
     agendamento.setUsuario(usuario);
 
     Agendamento agendamentoSalvo = agendamentoService.criarAgendamento(agendamento);
