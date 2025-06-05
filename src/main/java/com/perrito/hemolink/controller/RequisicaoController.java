@@ -2,6 +2,7 @@ package com.perrito.hemolink.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,6 @@ public ResponseEntity<?> criarRequisicao(
 
         Requisicao requisicao = new Requisicao();
         requisicao.setTipo(dto.getTipo());
-        requisicao.setLocal(dto.getLocal());
         requisicao.setDescricao(dto.getDescricao());
         requisicao.setDataCriacao(LocalDateTime.now());
         requisicao.setUsuario(usuario);
@@ -56,7 +56,6 @@ public ResponseEntity<?> criarRequisicao(
 
         RequisicaoDTO responseDTO = new RequisicaoDTO();
         responseDTO.setTipo(requisicaoSalva.getTipo());
-        responseDTO.setLocal(requisicaoSalva.getLocal());
         responseDTO.setDescricao(requisicaoSalva.getDescricao());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
@@ -87,9 +86,18 @@ public ResponseEntity<?> criarRequisicao(
     }
 }
 
-
     @GetMapping("/feed")
-    public List<Requisicao> listarRequisicoes() {
-        return requisicaoService.listarRequisicoes();
+    public ResponseEntity<List<RequisicaoDTO>> listarRequisicoes() {
+        List<Requisicao> requisicoes = requisicaoService.listarRequisicoes();
+
+        List<RequisicaoDTO> dtos = requisicoes.stream().map(requisicao -> {
+            RequisicaoDTO dto = new RequisicaoDTO();
+            dto.setTipo(requisicao.getTipo());
+            dto.setDescricao(requisicao.getDescricao());
+            return dto;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(dtos);
     }
+
 }
