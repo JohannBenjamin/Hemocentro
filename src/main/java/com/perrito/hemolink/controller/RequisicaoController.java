@@ -48,6 +48,7 @@ public ResponseEntity<?> criarRequisicao(
         }
 
         Requisicao requisicao = new Requisicao();
+    
         requisicao.setTipo(dto.getTipo());
         requisicao.setDescricao(dto.getDescricao());
         requisicao.setDataCriacao(LocalDateTime.now());
@@ -56,6 +57,7 @@ public ResponseEntity<?> criarRequisicao(
         Requisicao requisicaoSalva = requisicaoService.criarRequisicao(usuario, requisicao);
 
         RequisicaoDTO responseDTO = new RequisicaoDTO();
+        responseDTO.setNome(usuario.getNome());
         responseDTO.setTipo(requisicaoSalva.getTipo());
         responseDTO.setDescricao(requisicaoSalva.getDescricao());
 
