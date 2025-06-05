@@ -29,6 +29,10 @@ public class AgendamentoController {
 public ResponseEntity<?> criarAgendamento(
     @AuthenticationPrincipal UserDetails userDetails,
     @RequestBody Agendamento agendamento) {
+    
+    System.out.println("UserDetails: " + userDetails);
+    System.out.println("Email do usuário: " + (userDetails != null ? userDetails.getUsername() : "null"));
+
 
     if (userDetails == null) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");

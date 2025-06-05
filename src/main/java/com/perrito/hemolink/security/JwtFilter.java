@@ -31,12 +31,15 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
+        System.out.println("JwtFilter - Authorization header: " + authHeader);
         String token = null;
         String email = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
             email = jwtUtil.extractUsername(token);
+            System.out.println("JwtFilter - Token: " + token);
+            System.out.println("JwtFilter - Email extraído do token: " + email);
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -47,10 +50,18 @@ public class JwtFilter extends OncePerRequestFilter {
                 );
                 authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
+                    
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
+                System.out.println("JwtFilter - Usuário autenticado: " + email);
+            } else {
+            System.out.println("JwtFilter - Token inválido para usuário: " + email);
         }
+    } else if(email == null) {
+        System.out.println("JwtFilter - Nenhum email extraído do token.");
+    } else {
+        System.out.println("JwtFilter - Usuário já autenticado.");
+    }
 
         filterChain.doFilter(request, response);
     }
