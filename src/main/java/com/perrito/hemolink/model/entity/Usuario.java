@@ -3,8 +3,11 @@ package com.perrito.hemolink.model.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,11 +27,13 @@ public class Usuario {
 	private String regiao;
 	private String senha;
 	
-	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private Requisicao requisicao;
+	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
+   	 private Requisicao requisicao;
 	
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Agendamento> agendamento;
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
+    	private List<Agendamento> agendamento;
 	
 	
 	
