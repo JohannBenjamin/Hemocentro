@@ -49,4 +49,8 @@ public class RequisicaoService {
     public List<Requisicao> listarRequisicoes() {
         return requisicaoRepo.findAll();
     }
+    
+    public void deletarRequisicoesInvalidadas() {
+        requisicaoRepo.deleteByTipoIsNullOrTipo("");
+    }
 }

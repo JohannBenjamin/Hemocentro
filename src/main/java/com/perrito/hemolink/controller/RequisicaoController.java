@@ -103,4 +103,24 @@ public ResponseEntity<?> criarRequisicao(
         return ResponseEntity.ok(dtos);
     }
 
+    @DeleteMapping("/teste")
+    public ResponseEntity<?> deletarRequisicaoDoUsuarioTeste(
+            @AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            if (userDetails == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
+            }
+
+            Usuario usuario = usuarioService.findByEmail(userDetails.getUsername());
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não encontrado.");
+            }
+
+            requisicaoService.deletarRequisicoesInvalidadas();
+            return ResponseEntity.ok("Requisição deletada com sucesso.");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+   }
 }
