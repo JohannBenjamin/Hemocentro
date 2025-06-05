@@ -52,7 +52,8 @@ public class SecurityConfig {
              "/api/usuario/cadastrar",
              "/api/usuario/regioes",
              "/api/auth/login",
-             "/api/requisicoes/publico/**").permitAll() // liberar login
+             "/api/requisicoes/publico/**",
+             "/api/agendamentos/cadastrar").permitAll() // liberar login
             .anyRequest().authenticated();
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
