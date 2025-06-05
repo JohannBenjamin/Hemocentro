@@ -27,26 +27,22 @@ public class AgendamentoService {
 
     // Criar Agendamento
     public Agendamento criarAgendamento(Agendamento agendamentoCriado) {
-        Usuario usuario = usuarioRepository.findById(agendamentoCriado.getUsuario().getId())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    Usuario usuario = usuarioRepository.findById(agendamentoCriado.getUsuario().getId())
+            .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-        Requisicao requisicao = requisicaoRepository.findById(agendamentoCriado.getRequisicao().getId())
-                .orElseThrow(() -> new RuntimeException("Requisição não encontrada"));
+    Requisicao requisicao = requisicaoRepository.findById(agendamentoCriado.getRequisicao().getId())
+            .orElseThrow(() -> new RuntimeException("Requisição não encontrada"));
 
-        // Verifique se o usuário não está agendando para si mesmo (opcional)
-        if (usuario.equals(requisicao.getUsuario())) {
-            throw new RuntimeException("Não é permitido agendar para a própria requisição");
-        }
-
-        Agendamento agendamento = new Agendamento();
-        agendamento.setUsuario(usuario);
-        agendamento.setRequisicao(requisicao);
-        agendamento.setData(agendamento.getData());
-
-        agendamento = agendamentoRepository.save(agendamento);
-
-        return agendamento;
+    if (usuario.equals(requisicao.getUsuario())) {
+        throw new RuntimeException("Não é permitido agendar para a própria requisição");
     }
+
+    agendamentoCriado.setUsuario(usuario);
+    agendamentoCriado.setRequisicao(requisicao);
+
+    return agendamentoRepository.save(agendamentoCriado);
+}
+
 
     // Listar Agendamentos por Requisição
     public List<Agendamento> listarAgendamentosPorRequisicao(int codigo) {
